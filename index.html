@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Message Portal</title>
+    <title>Message Portal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,21 +49,21 @@
         </div>
     </div>
 
-    <audio id="popup-sound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
+    <audio id="popup-sound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-600.wav" preload="auto"></audio>
 
     <script>
         function openPortal() {
             const sound = document.getElementById('popup-sound');
 
-            // 1. Play audio track cleanly
+            // 1. Play the short ping sound once
             sound.play().catch(function(err) {
                 console.log("Audio waiting for user click.");
             });
 
-            // 2. Deliver the notification pop-up instantly
+            // 2. Deliver the pop-up text message right after the sound plays
             setTimeout(function() {
                 alert("Please be patient, Ted and come back on Tuesday!");
-            }, 100);
+            }, 150);
         }
     </script>
 
