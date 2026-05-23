@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Message Portal</title>
+    <title>Message Portal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,59 +37,33 @@
         .btn:hover {
             background-color: #0056b3;
         }
-        .error-text {
-            color: #dc3545;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Secure Message Portal</h2>
+        <h2>Message Portal</h2>
         <div id="portal-content">
-            <p>Click below to verify your credentials and view your message.</p>
-            <button class="btn" onclick="verifyAndPlay()">Enter Portal</button>
+            <p>Click below to open your status update.</p>
+            <button class="btn" onclick="openPortal()">Enter Portal</button>
         </div>
     </div>
 
     <audio id="popup-sound" src="https://assets.mixkit.co/active_storage/sfx/2565/2565-600.wav" preload="auto"></audio>
 
     <script>
-        function verifyAndPlay() {
-            // 1. Fetch the unique user token from the website address bar
-            const urlParams = new URLSearchParams(window.location.search);
-            const passedKey = urlParams.get('user');
-
-            const contentDiv = document.getElementById('portal-content');
+        function openPortal() {
             const sound = document.getElementById('popup-sound');
 
-            // 2. The Authorized User Database (Maps keys to your 4 requested individuals)
-            const authorizedUsers = {
-                "ted-c3d": "twodoslawsky@c3digitus.com",
-                "ted-c3c": "twodoslawsky@c3controls.com",
-                "abhiram-gp": "abhirampillai504pk@gmail.com",
-                "kunal-c3d": "kbarnawal@c3digitus.com",
-                "kunal-c3c": "kbarnawal@c3controls.com"
-            };
+            // 1. Play the short click sound once cleanly
+            sound.play().catch(function(err) {
+                console.log("Audio waiting for user click.");
+            });
 
-            // 3. Evaluate Access
-            if (passedKey && authorizedUsers[passedKey]) {
-                
-                // Play the crisp, short click audio track
-                sound.play().catch(function(err) {
-                    console.log("Audio waiting for interaction.");
-                });
-
-                // Deliver the alert box after 50 milliseconds so it doesn't interrupt the sound
-                setTimeout(function() {
-                    alert("Please be patient, Ted and come back on Tuesday!");
-                }, 50);
-                
-            } else {
-                // Instantly block anyone else who doesn't have a valid key
-                contentDiv.innerHTML = "<p class='error-text'>Access Denied.<br>You do not have permission to view this message.</p>";
-            }
+            // 2. Deliver the updated message pop-up box
+            setTimeout(function() {
+                alert("In process, check back Tuesday");
+            }, 50);
         }
     </script>
 
