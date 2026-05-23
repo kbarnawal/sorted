@@ -57,32 +57,41 @@
 
     <script>
         function verifyAndPlay() {
-            // 1. Get the key from the URL (?user=...)
+            // 1. Fetch the user token from the URL bar
             const urlParams = new URLSearchParams(window.location.search);
-            const passedKey = urlParams.get('user');
+            let passedKey = urlParams.get('user');
+
+            // 2. Testing Fallback: Default to Ted if no key is entered in the URL
+            if (!passedKey) {
+                passedKey = "ted-c3c";
+            }
 
             const contentDiv = document.getElementById('portal-content');
             const sound = document.getElementById('popup-sound');
 
-            // 2. Updated Authorized users list (includes both c3digitus and c3controls keys)
+            // 3. Authorized User Database Mapping
             const authorizedUsers = {
-                "ted-c3d": "Ted",
-                "ted-c3c": "Ted (c3controls)",
-                "abhiram-gp": "Abhiram",
-                "kunal-c3d": "K_Barnawal",
-                "kunal-c3c": "K_Barnawal (c3controls)"
+                "ted-c3d": "twodoslawsky@c3digitus.com",
+                "ted-c3c": "twodoslawsky@c3controls.com",
+                "abhiram-gp": "abhirampillai504pk@gmail.com",
+                "kunal-c3d": "kbarnawal@c3digitus.com",
+                "kunal-c3c": "kbarnawal@c3controls.com"
             };
 
-            // 3. Check access
-            if (passedKey && authorizedUsers[passedKey]) {
-                // Play the notification sound
-                sound.play().catch(error => console.log("Audio playback delayed:", error));
+            // 4. Validate and Execute Actions cleanly
+            if (authorizedUsers[passedKey]) {
+                
+                // Play audio safely
+                sound.play();
 
-                // Instantly trigger the pop-up text message
-                alert("Please be patient, Ted and come back on Tuesday!");
+                // Wait exactly 350ms for the sound to trigger before the alert freezes the page
+                setTimeout(function() {
+                    alert("Please be patient, Ted and come back on Tuesday!");
+                }, 350);
+                
             } else {
-                // Lock them out
-                contentDiv.innerHTML = "<p class='error-text'>Access Denied.<br>You do not have permission to view this message.</p>";
+                // Displays on-screen restriction if an illegal key token is typed
+                contentDiv.innerHTML = "<p class='error-text'>Access Denied.<br>Invalid security key token.</p>";
             }
         }
     </script>
