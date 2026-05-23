@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Message Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 400px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .error-text {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Secure Message Portal</h2>
+        <div id="portal-content">
+            <p>Click below to verify your credentials and view your message.</p>
+            <button class="btn" onclick="verifyAndPlay()">Enter Portal</button>
+        </div>
+    </div>
+
+    <audio id="popup-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-600.wav" preload="auto"></audio>
+
+    <script>
+        function verifyAndPlay() {
+            // 1. Get the key from the URL (?user=...)
+            const urlParams = new URLSearchParams(window.location.search);
+            const passedKey = urlParams.get('user');
+
+            const contentDiv = document.getElementById('portal-content');
+            const sound = document.getElementById('popup-sound');
+
+            // 2. Authorized users list
+            const authorizedUsers = {
+                "ted-c3d": "Ted",
+                "abhiram-gp": "Abhiram",
+                "kunal-c3d": "K_Barnawal"
+            };
+
+            // 3. Check access
+            if (passedKey && authorizedUsers[passedKey]) {
+                // Play the notification sound
+                sound.play().catch(error => console.log("Audio playback delayed:", error));
+
+                // Instantly trigger the pop-up text message
+                alert("Please be patient, Ted and come back on Tuesday!");
+            } else {
+                // Lock them out
+                contentDiv.innerHTML = "<p class='error-text'>Access Denied.<br>You do not have permission to view this message.</p>";
+            }
+        }
+    </script>
+
+</body>
+</html>
